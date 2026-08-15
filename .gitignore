@@ -1,0 +1,11 @@
+node_modules/
+dist/
+release/
+*.log
+*.err
+.DS_Store
+thumbs.dbgenerate-seed.*
+stderr.txt
+stdout.txt
+app.err
+app.log
