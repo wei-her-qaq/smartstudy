@@ -24,6 +24,7 @@
     "echarts": "^5.4.3",
     "echarts-for-react": "^3.0.2",
     "electron-store": "^8.1.0",
+    "framer-motion": "^13.1.0",
     "openai": "^4.20.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -58,7 +59,12 @@
       {
         "from": "resources",
         "to": ".",
-        "filter": ["*.wasm", "*.json", "*.png", "*.ico"]
+        "filter": [
+          "*.wasm",
+          "*.json",
+          "*.png",
+          "*.ico"
+        ]
       }
     ],
     "win": {
@@ -69,7 +75,9 @@
       "signDlls": false
     },
     "linux": {
-      "target": ["tar.gz"],
+      "target": [
+        "tar.gz"
+      ],
       "icon": "resources/icon.png",
       "category": "Utility",
       "synopsis": "智能学习辅助工具",

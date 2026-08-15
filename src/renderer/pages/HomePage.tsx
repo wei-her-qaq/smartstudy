@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Statistic } from 'antd';
-import { BookOutlined, ClockCircleOutlined, CheckCircleOutlined, BarChartOutlined } from '@ant-design/icons';
+import { Row, Col } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import {
+  TimerIcon, EditIcon, GlobeIcon, BookIcon,
+  CalculatorIcon, LightbulbIcon, ScrollIcon, CheckIcon,
+  ChartIcon, ReadingIcon, HeadphonesIcon, MicIcon,
+} from '../components/Icons';
 
 const HomePage: React.FC = () => {
+  const navigate = useNavigate();
   const [stats, setStats] = useState({ tomatoCount: 0, totalMinutes: 0, checkinDays: 0, questionCount: 0 });
 
   useEffect(() => {
@@ -22,50 +28,83 @@ const HomePage: React.FC = () => {
     });
   }, []);
 
+  const tiles = [
+    { label: '番茄钟', desc: '专注计时', icon: TimerIcon, path: '/tomato', color: '#fa5c5c' },
+    { label: '刷题练习', desc: '选择科目开始', icon: EditIcon, path: '/practice', color: '#1677ff' },
+    { label: '英语训练', desc: '初中到雅思', icon: GlobeIcon, path: '/english', color: '#52c41a' },
+    { label: '双语阅读', desc: '诗歌·小说·期刊', icon: ReadingIcon, path: '/english/reading', color: '#722ed1' },
+    { label: '听力训练', desc: '分级听力', icon: HeadphonesIcon, path: '/english/listening', color: '#13c2c2' },
+    { label: '口语训练', desc: '跟读·评分', icon: MicIcon, path: '/english/speaking', color: '#fa8c16' },
+    { label: '初高中知识', desc: '九科全覆盖', icon: CalculatorIcon, path: '/k12', color: '#2f54eb' },
+    { label: '生活常识', desc: '每日一条', icon: LightbulbIcon, path: '/life-tips', color: '#eb2f96' },
+    { label: '技能证书', desc: '驾照·计算机', icon: ScrollIcon, path: '/cert', color: '#faad14' },
+    { label: '待办事项', desc: '任务管理', icon: CheckIcon, path: '/todo', color: '#52c41a' },
+    { label: '学习分析', desc: '薄弱点检测', icon: ChartIcon, path: '/analysis', color: '#1677ff' },
+    { label: '题库管理', desc: 'AI生成·导入', icon: BookIcon, path: '/question-bank', color: '#722ed1' },
+  ];
+
   return (
     <div>
-      <div className="page-header">
-        <h2>欢迎回来</h2>
-        <p>继续你的学习之旅</p>
+      {/* Hero Banner */}
+      <div className="hero-banner">
+        <div>
+          <h2>欢迎回来，同学</h2>
+          <p>继续你的学习之旅 · 今日已专注 {Math.round(stats.totalMinutes / 60)} 分钟 · 打卡 {stats.checkinDays} 天</p>
+        </div>
+        <div className="hero-banner-icon">📘</div>
       </div>
-      <Row gutter={[16, 16]}>
-        <Col span={6}>
-          <Card className="stat-card">
-            <Statistic title="本月番茄钟" value={stats.tomatoCount} prefix={<ClockCircleOutlined />} suffix="个" />
-          </Card>
+
+      {/* Stats */}
+      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
+        <Col xs={12} sm={6}>
+          <div className="stat-card">
+            <div className="stat-value">{stats.tomatoCount}</div>
+            <div className="stat-label">本月番茄钟</div>
+          </div>
         </Col>
-        <Col span={6}>
-          <Card className="stat-card">
-            <Statistic title="学习时长" value={Math.round(stats.totalMinutes / 60)} prefix={<BookOutlined />} suffix="小时" />
-          </Card>
+        <Col xs={12} sm={6}>
+          <div className="stat-card">
+            <div className="stat-value">{Math.round(stats.totalMinutes / 60)}</div>
+            <div className="stat-label">学习时长(小时)</div>
+          </div>
         </Col>
-        <Col span={6}>
-          <Card className="stat-card">
-            <Statistic title="打卡天数" value={stats.checkinDays} prefix={<CheckCircleOutlined />} suffix="天" />
-          </Card>
+        <Col xs={12} sm={6}>
+          <div className="stat-card">
+            <div className="stat-value">{stats.checkinDays}</div>
+            <div className="stat-label">打卡天数</div>
+          </div>
         </Col>
-        <Col span={6}>
-          <Card className="stat-card">
-            <Statistic title="答题数" value={stats.questionCount} prefix={<BarChartOutlined />} suffix="题" />
-          </Card>
-        </Col>
-      </Row>
-      <Row gutter={[16, 16]} style={{ marginTop: 24 }}>
-        <Col span={12}>
-          <Card title="快速开始" className="card-hover">
-            <Row gutter={[12, 12]}>
-              <Col span={8}><Card size="small" onClick={() => window.location.hash = '/tomato'}>🍅 番茄钟</Card></Col>
-              <Col span={8}><Card size="small" onClick={() => window.location.hash = '/practice'}>✏️ 开始刷题</Card></Col>
-              <Col span={8}><Card size="small" onClick={() => window.location.hash = '/english'}>🌍 学英语</Card></Col>
-            </Row>
-          </Card>
-        </Col>
-        <Col span={12}>
-          <Card title="今日建议">
-            <p>完成今日学习计划，保持连续打卡</p>
-          </Card>
+        <Col xs={12} sm={6}>
+          <div className="stat-card">
+            <div className="stat-value">{stats.questionCount}</div>
+            <div className="stat-label">答题数</div>
+          </div>
         </Col>
       </Row>
+
+      {/* Launch Tiles Grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 16 }}>
+        {tiles.map((tile, i) => {
+          const Icon = tile.icon;
+          return (
+            <div
+              key={tile.label}
+              className="launch-tile"
+              onClick={() => navigate(tile.path)}
+              style={{
+                animation: `staggerIn 0.3s var(--ease-out-back) ${i * 0.04}s forwards`,
+                opacity: 0,
+              }}
+            >
+              <div className="launch-tile-icon" style={{ background: tile.color + '15', color: tile.color }}>
+                <Icon size={28} color={tile.color} />
+              </div>
+              <div className="launch-tile-title">{tile.label}</div>
+              <div className="launch-tile-desc">{tile.desc}</div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

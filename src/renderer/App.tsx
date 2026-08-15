@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Layout } from 'antd';
 import TitleBar from './components/TitleBar';
 import Sidebar from './components/Sidebar';
@@ -23,31 +23,40 @@ import PackManagerPage from './pages/PackManagerPage';
 
 const { Content } = Layout;
 
+const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const location = useLocation();
+  return (
+    <div key={location.pathname} className="page-enter" style={{ minHeight: '100%' }}>
+      {children}
+    </div>
+  );
+};
+
 const App: React.FC = () => {
   return (
-    <Layout style={{ height: '100vh', background: '#f5f5f5' }}>
+    <Layout style={{ height: '100vh', background: 'var(--bg)' }}>
       <TitleBar />
-      <Layout>
+      <Layout style={{ flexDirection: 'row' }}>
         <Sidebar />
-        <Content style={{ marginTop: 32, padding: 24, overflow: 'auto' }}>
+        <Content className="content-area">
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/tomato" element={<TomatoPage />} />
-            <Route path="/study-plan" element={<StudyPlanPage />} />
-            <Route path="/todo" element={<TodoPage />} />
-            <Route path="/question-bank" element={<QuestionBankPage />} />
-            <Route path="/practice/:subjectId?" element={<PracticePage />} />
-            <Route path="/analysis" element={<AnalysisPage />} />
-            <Route path="/solution" element={<SolutionPage />} />
-            <Route path="/english" element={<EnglishPage />} />
-            <Route path="/english/reading" element={<EnglishReadingPage />} />
-            <Route path="/english/listening" element={<EnglishListeningPage />} />
-            <Route path="/english/speaking" element={<EnglishSpeakingPage />} />
-            <Route path="/k12" element={<K12Page />} />
-            <Route path="/life-tips" element={<LifeTipsPage />} />
-            <Route path="/cert" element={<CertPage />} />
-            <Route path="/pack-manager" element={<PackManagerPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/" element={<PageWrapper><HomePage /></PageWrapper>} />
+            <Route path="/tomato" element={<PageWrapper><TomatoPage /></PageWrapper>} />
+            <Route path="/study-plan" element={<PageWrapper><StudyPlanPage /></PageWrapper>} />
+            <Route path="/todo" element={<PageWrapper><TodoPage /></PageWrapper>} />
+            <Route path="/question-bank" element={<PageWrapper><QuestionBankPage /></PageWrapper>} />
+            <Route path="/practice/:subjectId?" element={<PageWrapper><PracticePage /></PageWrapper>} />
+            <Route path="/analysis" element={<PageWrapper><AnalysisPage /></PageWrapper>} />
+            <Route path="/solution" element={<PageWrapper><SolutionPage /></PageWrapper>} />
+            <Route path="/english" element={<PageWrapper><EnglishPage /></PageWrapper>} />
+            <Route path="/english/reading" element={<PageWrapper><EnglishReadingPage /></PageWrapper>} />
+            <Route path="/english/listening" element={<PageWrapper><EnglishListeningPage /></PageWrapper>} />
+            <Route path="/english/speaking" element={<PageWrapper><EnglishSpeakingPage /></PageWrapper>} />
+            <Route path="/k12" element={<PageWrapper><K12Page /></PageWrapper>} />
+            <Route path="/life-tips" element={<PageWrapper><LifeTipsPage /></PageWrapper>} />
+            <Route path="/cert" element={<PageWrapper><CertPage /></PageWrapper>} />
+            <Route path="/pack-manager" element={<PageWrapper><PackManagerPage /></PageWrapper>} />
+            <Route path="/settings" element={<PageWrapper><SettingsPage /></PageWrapper>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Content>
